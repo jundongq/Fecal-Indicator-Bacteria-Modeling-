@@ -148,3 +148,28 @@ def run(grid_search = True):
 		plt.show()
 		
 run(grid_search=True)
+
+
+# load json and create model
+json_file = open('ANN_model.json', 'r')
+loaded_model_json = json_file.read()
+json_file.close()
+loaded_model = model_from_json(loaded_model_json)
+
+# load model_weights
+loaded_model.load_weights(ANN_weights_path)
+y_pred = loaded_model.predict(X_test)
+
+print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+print "R_squared value is:", r2_score(y_test, y_pred)
+#Summarize y_pred and y_test
+plt.plot(y_test, y_pred, 'ko', alpha=0.2)
+plt.plot([0,6], [0,6], 'k')
+plt.xlim(0, 6.)
+plt.ylim(0, 6.)
+plt.title('Predicted vs True')
+plt.ylabel('Predicted')
+plt.xlabel('True')
+plt.axhline(y=2.3)
+plt.axvline(x=2.3)
+plt.show()
